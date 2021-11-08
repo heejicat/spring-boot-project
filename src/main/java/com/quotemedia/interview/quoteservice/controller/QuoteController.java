@@ -1,6 +1,7 @@
 package com.quotemedia.interview.quoteservice.controller;
 
 import com.quotemedia.interview.quoteservice.model.Quote;
+import com.quotemedia.interview.quoteservice.model.QuoteAsk;
 import com.quotemedia.interview.quoteservice.model.QuoteResult;
 import com.quotemedia.interview.quoteservice.service.QuoteServiceImplementation;
 import javassist.NotFoundException;
@@ -49,15 +50,15 @@ public class QuoteController {
         }
     }
 
-//    @GetMapping("/highest/ask/{day}")
-//    public Quote getHighestAsk(@PathVariable String day) throws Exception {
-//        try {
-//            // Result
-//            Quote quote = quoteServiceImplementation.fetchHighestQuoteByDay(day);
-//
-//            return quote;
-//        } catch (NotFoundException e) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, null, e);
-//        }
-//    }
+    @GetMapping("/highest/ask/{day}")
+    public List<QuoteAsk> getHighestAsk(@PathVariable String day) throws Exception {
+        try {
+            // Result
+            List<QuoteAsk> quoteAsk = quoteServiceImplementation.fetchHighestQuoteByDay(day);
+
+            return quoteAsk;
+        } catch (NotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, null, e);
+        }
+    }
 }

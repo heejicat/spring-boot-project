@@ -9,11 +9,21 @@ public class Quote {
 
     @EmbeddedId
     private QuoteId quoteId;
-
     @Column
     private BigDecimal Bid;
     @Column
     private BigDecimal Ask;
+
+    public Quote() {
+    }
+
+    public Quote(QuoteId quoteId, BigDecimal ask) {
+        this.quoteId = quoteId;
+        Ask = ask;
+    }
+
+    public Quote(QuoteAsk quoteAsk) {
+    }
 
     public QuoteId getQuotePrimaryKey() {
         return quoteId;

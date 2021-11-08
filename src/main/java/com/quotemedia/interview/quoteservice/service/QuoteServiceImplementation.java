@@ -1,6 +1,7 @@
 package com.quotemedia.interview.quoteservice.service;
 
 import com.quotemedia.interview.quoteservice.model.Quote;
+import com.quotemedia.interview.quoteservice.model.QuoteAsk;
 import com.quotemedia.interview.quoteservice.model.QuoteId;
 import com.quotemedia.interview.quoteservice.repository.QuoteRepository;
 import javassist.NotFoundException;
@@ -18,6 +19,7 @@ public class QuoteServiceImplementation implements QuoteService {
 
     @Autowired
     private QuoteRepository quoteRepository;
+    private Object QuoteAsk;
 
     public QuoteServiceImplementation(QuoteRepository quoteRepository) {
         this.quoteRepository = quoteRepository;
@@ -47,25 +49,24 @@ public class QuoteServiceImplementation implements QuoteService {
         return quotes;
     }
 
-//    @Cacheable(value = "ask")
-//    @Override
-//    public Quote fetchHighestQuoteByDay(String day) throws Exception {
-//
-//        // for caching
-//        System.out.println(day + " searching...");
-//
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-//        java.util.Date date = sdf.parse(day);
-//        Date sqlDate = new Date(date.getTime());
-//
-//        // Get data from DB
-//        QuoteId quoteId = new QuoteId(sqlDate);
-//        Quote quote = quoteRepository.findHighestAskByDay(quoteId.getDay());
-//
-//        // Check if data exists
-//        if (quote.getAsk().equals(null)) {
-//            throw new NotFoundException("Not Found");
-//        }
-//        return quote;
-//    }
+    @Cacheable(value = "ask")
+    @Override
+    public List<QuoteAsk> fetchHighestQuoteByDay(String day) throws Exception {
+
+        // for caching
+        System.out.println(day + " searching...");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+        java.util.Date date = sdf.parse(day);
+        Date sqlDate = new Date(date.getTime());
+
+        // Get data from DB
+        List<QuoteAsk> quoteAsk = quoteRepository.findHighestAskByDayProjectedForQuoteAsk(sqlDate);
+
+        // Check if data exists
+        if (quoteAsk.isEmpty()) {
+            throw new NotFoundException("Not Found");
+        }
+        return quoteAsk;
+    }
 }

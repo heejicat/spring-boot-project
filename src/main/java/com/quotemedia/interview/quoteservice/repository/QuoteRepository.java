@@ -1,6 +1,7 @@
 package com.quotemedia.interview.quoteservice.repository;
 
 import com.quotemedia.interview.quoteservice.model.Quote;
+import com.quotemedia.interview.quoteservice.model.QuoteAsk;
 import com.quotemedia.interview.quoteservice.model.QuoteId;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -24,12 +25,12 @@ public interface QuoteRepository extends CrudRepository<Quote, QuoteId> {
             nativeQuery = true)
     List<Quote> findQuotesBySymbol(@Param("symbol") String symbol);
 
-//    @Query(value = "SELECT TOP 1 a.symbol, max(a.ask) ask " +
-//            "FROM quote a " +
-//            "WHERE a.day = :day " +
-//            "GROUP BY a.symbol " +
-//            "ORDER BY a.ask DESC ",
-//            nativeQuery = true)
-//    Quote findHighestAskByDay(@Param("day") Date day);
+    @Query(value = "SELECT a.symbol, a.ask " +
+            "FROM quote a " +
+            "WHERE a.day = :day " +
+            "ORDER BY a.ask DESC " +
+            "LIMIT 1 ",
+            nativeQuery = true)
+    List<QuoteAsk> findHighestAskByDayProjectedForQuoteAsk(@Param("day") Date day);
 }
 

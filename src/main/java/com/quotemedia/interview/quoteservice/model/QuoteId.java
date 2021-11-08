@@ -10,7 +10,6 @@ public class QuoteId implements Serializable {
 
     @Column
     private String Symbol;
-
     @Column
     private Date Day;
 
@@ -21,7 +20,6 @@ public class QuoteId implements Serializable {
         Symbol = symbol;
         Day = day;
     }
-
 
     public String getSymbol() {
         return Symbol;
